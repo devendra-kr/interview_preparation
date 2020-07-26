@@ -1,0 +1,101 @@
+1. What is Akka?
+===> Akka is a toolkit (not a framework) for building highly concurrent, distributed, and resilient message-driven applications for Java and Scala.
+
+2. What is Actor?
+===> Actors are message driven, stateful building blocks.
+a. Messages are passed asynchronously.
+b. Actors may create other actors and form supervision hierarchies.
+c. Actors are lightweight and won't hold threads.
+
+Actor model resolves the issues with common programming practices by message passing that avoids locking and blocking.
+
+3. Components of an Actor.
+===> Each Actor will have these component to achive the messaging behavior.
+a. mailbox, (the queue where messages end up)
+b. behavior (the state of the actor, internal variables, etc.).
+c. Messages (pieces of data representing a signal, similar to method calls and their parameters).
+d. Execution environment (the machinery that takes actors that have messages to react to and invokes their message handling code).
+e. An address.
+
+4. How Actors handle error situations gracefully?
+===> When the delegated task on the target actor failed due to an error in the task, service actor will reply to the sender with a message about the error case.
+Akka enforces that all actors are organized into a tree-like hierarchy, i.e. an actor that creates another actor becomes the parent of that new actor.
+When a service itself encounters an internal fault, its parent actor is notified and it can react to the failure.
+if the parent actor is stopped due to error conditions, all of its children are recursively stopped, too.
+
+5. Benefits of using the Actor model.
+===>
+a. Event-driven model: Actors perform work in response to messages. Communication between Actors is asynchronous, allowing Actors to send messages and continue their own work without blocking to wait for a reply.
+b. Strong isolation principles: There is no sharing of state between Actors; the only way to observe another actor's state is by sending it a message asking for it.
+c. Location transparency: The system constructs Actors from a factory and returns references to the instances. Because location doesn't matter, Actor instances can start, stop, move, and restart to scale up and down as well as recover from unexpected failures.
+d. Lightweight.
+
+6. Should the actor messages be immutable?
+===> Yes. Messages must be immutable as it is shared across different threads.
+
+7. How do you instantiate an Actor?
+===> The actorOf factory method creates Actors and takes two parameters, a configuration object called Props and a name (Actor name).
+
+8. Explain the Akka actor hierarchy.
+===> All actors have a common parent, the user guardian. Before you create an actor in your code, Akka has already created three actors in the system that supervise every child actor in their path.
+a. / the so-called root guardian. This is the parent of all actors in the system, and the last one to stop when the system itself is terminated.
+b. /user the guardian. This is the parent actor for all user created actors. Every actor you create using the Akka library will have the constant path /user/ prepended to it.
+c. /system the system guardian.
+
+9. context.actorOf vs system.actorOf in Akka tool kit.
+===> Both create actors however the difference lies where the actors are created in the actor tree hierarchy.
+Actors spawned with System.actorOf will be children of the guardian actor while the actors spawned with context.actorOf will be children of the context itself - i.e. the actor which invokes the method.
+
+10. Akka actor life cycle hooks
+===> 
+a. preStart() is invoked after the actor has started but before it processes its first message.
+b. postStop() is invoked just before the actor stops. No messages are processed after this point.
+
+11. Different message delivery semantics.
+===>
+a. At-most-once delivery: each message is delivered zero or one time, implies that messages can be lost, but are never duplicated. This is the default behavior which is cheap and produces high performance.
+b.At-least-once delivery: multiple attempts may be made to deliver each message, until at least one succeeds; messages can be duplicated but are never lost. Overhead of keeping the state at the sending end and having an acknowledgment mechanism at the receiving end
+c. Exactly-once delivery: each message is delivered exactly once to the recipient; the message can neither be lost nor be duplicated. This may exhibit worst performance.
+
+12. Advantages of using Akka model
+===>
+a. Simple and high-level abstractions for distribution, concurrency and parallelism.
+b. Asynchronous, non-blocking and highly performant message-driven programming model.
+c. Very lightweight event-driven processes (several million actors per GB of heap memory).
+
+13. Is Actor system heavy weight?
+===> Yes. ActorSystem is a heavyweight while Actor is light weight. So keep 1 ActorSystem per logical application.
+
+14. Different supervision strategies.
+===> OneForOneStrategy (default) and AllForOneStrategy.
+The difference is OneForOneStrategy applies directive only to the failed child while AllForOneStraegy applies to all siblings.
+The AllForOneStrategy is applicable in cases where the ensemble of children has such tight dependencies among them, that a failure of one child affects the function of the others.
+
+15. What are the children of the root guardian?
+===>
+a. /user is the guardian actor for all user-created top-level actors; actors created using ActorSystem.actorOf are found below this one.
+b. /system is the guardian actor for all system-created top-level actors, e.g. logging listeners or actors automatically deployed by conﬁguration at the start of the actor system.
+c. /deadLetters is the dead letter actor, which is where all messages sent to stopped or non-existing actors are re-routed.
+d. /temp is the guardian for all short-lived system-created actors, e.g. those which are used in the implementation of ActorRef.ask.
+e. /remote is an artiﬁcial path below which all actors reside whose supervisors are remote actor references.
+
+16. Difference between tell and ask method in AKKA.
+===> Both methods can be used to send messages to the actor.
+a. "tell" method send a message asynchronously and return immediately. The "tell" method works like "fire and forget".
+b. "ask" method is similar to tell method, send messages asynchronously and return Future object which expect a possible reply.
+Prefer to "tell" method for performance and use "ask" method only if there is a need.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
