@@ -1,0 +1,22 @@
+1. scala variance
+===> Variance defines Inheritance relationships of Parameterized Types. Variance is all about Sub-Typing.
+Scala Variance Type	---->	Syntax ----> Description
+Covariant	----> [+T]	----> If S is subtype of T, then List[S] is also subtype of List[T]
+Contravariant	---->	[-T] ----> If S is subtype of T, then List[T] is also subtype of List[S]
+Invariant		----> [T]		----> If S is subtype of T, then List[S] and List[T] are unrelated.
+Source : https://docs.scala-lang.org/tour/variances.html
+
+2. Referential transparency
+===> An expression is said to be referentially transparent if it can be replaced by its resulting value without changing the behavior of the program.
+Source : https://medium.com/@olxc/referential-transparency-93352c2dd713
+
+3. Future and Promise
+====> A Future is a placeholder object for a value that may not yet exist. (faster, asynchronous, non-blocking parallel)
+====> While futures are defined as a type of read-only placeholder object created for a result which doesn’t yet exist, a promise can be thought
+of as a writable, single-assignment container, which completes a future.
+Source : https://docs.scala-lang.org/overviews/core/futures.html
+
+4. Exception handling into Future
+===> recover and andthen
+
+5. Future can deal with : for and yield, flatmap
