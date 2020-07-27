@@ -20,3 +20,10 @@ Source : https://docs.scala-lang.org/overviews/core/futures.html
 ===> recover and andthen
 
 5. Future can deal with : for and yield, flatmap
+
+6. Type Inference
+===> determining the type of a variable or expression or object etc at compile-time by compiler is known as “Type Inference”
+
+7. closure function
+A closure is a function, whose return value depends on the value of one or more variables declared outside this function.
+The benefits of closure function is out side of variable always evaluated whenever the function called.
