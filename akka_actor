@@ -85,6 +85,8 @@ a. "tell" method send a message asynchronously and return immediately. The "tell
 b. "ask" method is similar to tell method, send messages asynchronously and return Future object which expect a possible reply.
 Prefer to "tell" method for performance and use "ask" method only if there is a need.
 
+more deep concept: http://highscalability.com/blog/2013/5/8/typesafe-interview-scala-akka-is-an-iaas-for-your-process-ar.html
+
 
 
 
