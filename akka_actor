@@ -85,6 +85,16 @@ a. "tell" method send a message asynchronously and return immediately. The "tell
 b. "ask" method is similar to tell method, send messages asynchronously and return Future object which expect a possible reply.
 Prefer to "tell" method for performance and use "ask" method only if there is a need.
 
+17. In Akka, supervisor strategies are the primary and straightforward mechanism for defining the fault tolerant behavior of your system.
+===>
+a. Resume the child (and its children), keeping its internal state. This strategy can be applied when the child state was not corrupted by the error and it can continue functioning correctly.
+b. Restart the child (and its children), clearing its internal state. This strategy can be used in the opposite scenario of the one just described. If the child state has been corrupted by the error, it is necessary the reset its state before it can be used in the Future.
+c. Stop the child (and its children) permanently. This strategy can be employed in cases where the error condition is not believed to be rectifiable, but does not jeopardize the rest of the operation being performed, which can be completed in the absence of the failed child.
+d. Stop itself and escalate the error. Employed when the supervisor does not know how to handle the failure and so it escalates it to its own supervisor.
+
+18. Location transparency
+===> The sender of the message may reside in the same JVM as the actor or in a separate JVM (either running on the same node or a different node).
+
 more deep concept: http://highscalability.com/blog/2013/5/8/typesafe-interview-scala-akka-is-an-iaas-for-your-process-ar.html
 
 
